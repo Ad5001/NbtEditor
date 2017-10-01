@@ -1,0 +1,98 @@
+/**
+ * fs.css
+ * @author Ad5001 <mail@ad5001.eu>
+ * @license NTOSL (View LICENSE.md)
+ * @copyright (C) Ad5001 2017
+ * @package nbt-editor-server
+ */
+
+.fs-file {
+    height: 30px;
+    line-height: 28px;
+    text-align: center;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+
+/** File styling */
+
+#file-manager {
+    top: 74px;
+    display: block;
+    height: 100%;
+    border-right: solid 0.5px var(--nem-border, #BDBDBD);
+    transition: margin-left 0.5s ease-in-out;
+    width: 321px !important;
+}
+
+#file-manager.hidden {
+    margin-left: -331px;
+}
+
+.fs-tab-bar {
+    border-top: solid 0.5px var(--nem-border, #BDBDBD);
+    bottom: 0px;
+    position: absolute !important;
+    width: 321px !important;
+    background: white;
+    left: 0px;
+}
+
+.fs-tab-bar>.mdc-tab.fa {
+    font-size: 24px;
+}
+
+.fs-tab-bar.hidden {
+    z-index: -10;
+    display: none;
+}
+
+.fs-tab-bar>.mdc-tab {
+    min-width: 10px;
+}
+
+#addFsMenu {
+    bottom: 0.5em;
+}
+
+#fsListContainer {
+    margin-left: -7px;
+    max-height: calc(100% - 76px);
+    overflow-x: hidden;
+    width: 321px;
+}
+
+#fsList {
+    width: 321px;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+#fsList div.mdc-list-item {
+    width: 301px;
+}
+
+.nem-checkbox-transition {
+    animation-name: nem-checkbox-transition;
+    animation-duration: 0.15s;
+    animation-timing-function: ease-in-out;
+}
+
+.fs-tab-bar .fa {
+    vertical-align: middle;
+}
+
+.mdc-list-item__start-detail.fa {
+    font-size: 24px;
+}
+
+@keyframes nem-checkbox-transition {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

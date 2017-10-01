@@ -1,0 +1,74 @@
+/**
+ * nem.css
+ * @author Ad5001 <mail@ad5001.eu>
+ * @license NTOSL (View LICENSE.md)
+ * @copyright (C) Ad5001 2017
+ * @package nbt-editor-server
+ */
+
+:root * {
+    --mdc-theme-primary: #FF9800;
+    --mdc-theme-accent: #FF5722;
+    --mdc-theme-secondary: #FF5722;
+    --mdc-theme-background: #fff;
+    --mdc-theme-text-primary-on-primary: #212121;
+    --mdc-theme-text-secondary-on-primary: #757575;
+    --mdc-theme-text-primary-on-secondary: #757575;
+    --mdc-theme-text-hint-on-primary: #757575;
+    --mdc-theme-text-disabled-on-primary: #757575;
+    --mdc-theme-text-icon-on-primary: #212121;
+    --mdc-theme-text-primary-on-accent: #212121;
+    --mdc-theme-text-secondary-on-accent: #757575;
+    --mdc-theme-text-hint-on-accent: #BDBDBD;
+    --mdc-theme-text-disabled-on-accent: #BDBDBD;
+    --mdc-theme-text-icon-on-accent: #757575;
+    --nem-border: #BDBDBD;
+}
+
+#loading-bd {
+    transition: opacity 0.5s;
+}
+
+#draganddroptext {
+    top: 49%;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    color: white;
+    transition: opacity 3ms;
+}
+
+#main {
+    display: flex;
+    margin-top: 74px;
+    height: 100%;
+}
+
+body {
+    height: calc(100vh - 64px);
+}
+
+.for-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 400px) {
+    .for-mobile {
+        display: block;
+    }
+    header.mdc-toolbar>div.mdc-toolbar__row {
+        display: contents;
+    }
+    #main {
+        margin-top: 140px;
+    }
+    .fs-tab-bar {
+        left: 0px;
+    }
+    .hidden .fs-tab-bar {
+        left: inherit;
+    }
+    .close-file {
+        opacity: 1;
+    }
+}

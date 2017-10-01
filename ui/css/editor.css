@@ -1,0 +1,92 @@
+/**
+ * fs.css
+ * @author Ad5001 <mail@ad5001.eu>
+ * @license NTOSL (View LICENSE.md)
+ * @copyright (C) Ad5001 2017
+ * @package nbt-editor-server
+ */
+
+#edit-file-tab-bar-list {
+    overflow: scroll;
+    height: 64px;
+    max-width: 500%;
+    border-left: solid 0.5px var(--mdc-theme-secondary-on-light, rgba(0, 0, 0, .54));
+}
+
+#edit-file-tab-bar-list>.mdc-tab {
+    border-right: solid 0.5px var(--mdc-theme-text-secondary-on-primary, hsla(0, 0%, 100%, .7));
+}
+
+#edit-file-tab-bar-list>.mdc-tab:hover {
+    border-right: solid 0.5px var(--mdc-theme-text-primary-on-light, rgba(0, 0, 0, .87));
+}
+
+#edit-file-tab-bar-list>.mdc-tab.mdc-tab--active {
+    border: solid 0.5px var(--mdc-theme-text-primary-on-light, rgba(0, 0, 0, .87));
+    border-left: none;
+    border-bottom: none;
+    background: white;
+}
+
+#edit-file-tab-bar-list>.mdc-tab-bar__indicator {
+    background-color: white !important;
+    height: 10px;
+    top: 63px;
+    left: 1px;
+    width: calc(100% - 3px);
+}
+
+#editor {
+    display: block;
+    padding-left: 1rem;
+    width: 100%;
+}
+
+.close-file {
+    opacity: 0.01;
+}
+
+.mdc-tab:hover .close-file {
+    opacity: 1;
+}
+
+
+/** Player **/
+
+.nem-playercontainer {
+    height: 100%;
+    width: 200px;
+}
+
+#player-skin {
+    height: 290px;
+    background: radial-gradient(#E3E3E3, white, white);
+    cursor: move;
+    /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+}
+
+#playerUsername {
+    text-align: center;
+    top: 1rem;
+    transition: font-size 0.2s, opacity 0.2s;
+}
+
+#playerUsername.hidden {
+    /* position: absolute; */
+    opacity: 0;
+    font-size: 0;
+}
+
+#playerUsernameContainer {
+    margin-top: -3rem;
+    position: absolute;
+}
+
+@media screen and (max-height: 400px) {
+    #player-skin {
+        height: calc(100% - 40px);
+    }
+}

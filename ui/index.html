@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html manifest="/manifest/old.manifest.php">
+<!-- Yes, I know, manifest is depreced but's required until all browsers supports service workers. Like safari or IE -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PocketMine Server Manager</title>
+    <!-- Web app manifest -->
+    <link rel="manifest" href="/manifest/web-app-manifest.json">
+    <!-- Apple related -->
+    <meta name="apple-mobile-web-app-title" content="NBT Editor">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#FF9800">
+    <meta name="format-detection" content="telephone=no">
+    <!-- NBT Editor Mobile Design -->
+    <link rel="stylesheet" href="css/nem.css">
+    <link rel="stylesheet" href="css/fs.css">
+    <link rel="stylesheet" href="css/editor.css">
+    <!-- Material Design -->
+    <link rel="stylesheet" href="css/material/roboto.css">
+    <link rel="stylesheet" href="css/material/mdc.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="css/fontawesome/css/font-awesome.min.css">
+    <!-- Apple  icons related -->
+    <link rel="apple-touch-startup-image" href="/icons/homescreen256.png">
+    <link rel="apple-touch-icon" href="/icons/homescreen256.png">
+    <link rel="apple-touch-icon" sizes="32x32" href="icons/homescreen32.png">
+    <link rel="apple-touch-icon" sizes="48x48" href="icons/homescreen48.png">
+    <link rel="apple-touch-icon" sizes="64x64" href="icons/homescreen64.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="icons/homescreen72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="icons/homescreen96.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="icons/homescreen128.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icons/homescreen144.png">
+    <link rel="apple-touch-icon" sizes="168x168" href="icons/homescreen168.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="icons/homescreen192.png">
+    <link rel="apple-touch-icon" sizes="256x256" href="icons/homescreen256.png">
+</head>
+
+
+<!-- Starting body -->
+
+<body class="mdc-typography" style="overflow: hidden;">
+
+    <!-- Menu -->
+    <header class="mdc-toolbar mdc-toolbar--fixed demo-header-toolbar">
+        <div class="mdc-toolbar__row">
+            <!-- Header row -->
+            <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+                <span class="catalog-back">
+                    <button class="unclickable mdl-layout__drawer-button mdc-toolbar__icon--menu" role="button" id="showFileManager" tabindex="0">
+                        <i class="fa fa-bars fa-2x"></i>
+					</button>
+                </span>
+                <span class="mdc-toolbar__title catalog-title">NBT Editor</span>
+            </section>
+            <section class="mdc-toolbar__section mdc-toolbar__section--align-end">
+                <!-- opened files tab -->
+                <div id="edit-file-tab-bar-scroller" class="mdc-tab-bar-scroller" data-auto-init="MDCTabBarScroller">
+                    <div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--back">
+                        <div class="mdc-tab-bar-scroller__indicator__inner fa fa-chevron-left fa-2x" href="#" aria-label="scroll back button">
+                        </div>
+                    </div>
+                    <div class="mdc-tab-bar-scroller__scroll-frame">
+                        <nav id="edit-file-tab-bar-list" class="mdc-tab-bar mdc-tab-bar-scroller__scroll-frame__tabs">
+                            <div class="mdc-tab mdc-tab--active" data-open-file="/files/Welcome1.0.html" data-type="html">Welcome&nbsp;<i class="fa fa-times close-file"></i></div>
+                            <span class="mdc-tab-bar__indicator"></span>
+                        </nav>
+                    </div>
+                    <div class="mdc-tab-bar-scroller__indicator mdc-tab-bar-scroller__indicator--forward">
+                        <div class="mdc-tab-bar-scroller__indicator__inner fa-2x fa fa-chevron-right" href="#" aria-label="scroll forward button">
+                            navigate_next
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </header>
+
+    <!-- Main body section -->
+    <main id="main">
+        <!-- File manager -->
+        <div id="file-manager">
+            <!-- Files list -->
+            <div id="fsListContainer">
+                <nav class="mdc-list" id="fsList">
+                </nav>
+            </div>
+
+            <!-- Bottom toolbar -->
+            <nav id="fs-tab-bar1" class="mdc-tab-bar fs-tab-bar">
+                <!-- Add file/folder -->
+                <div class="mdc-tab" id="addFsBtn" aria-label="Add file" alt-title="Add file"><i class="fa fa-plus"></i></div>
+                <input type="file" style="display:none;" id="inputfile" accept=".dat,.mca" multiple/>
+
+                <!-- Edit files -->
+                <div class="mdc-tab" aria-label="Modify files" alt-title="Modify files" onclick="window.fsManager.toEditMode()"><i class="fa fa-pencil"></i></div>
+            </nav>
+            <!-- Bottom toolbar when editing-->
+            <nav id="fs-tab-bar2" class="mdc-tab-bar fs-tab-bar hidden">
+                <!-- Delete file -->
+                <div class="mdc-tab" id="removeFSBtn" aria-label="Delete file" alt-title="Delete file"><i class="fa fa-trash-o"></i></div>
+
+                <!-- Downloads the file -->
+                <div class="mdc-tab" aria-label="Export file" alt-title="Export file"><i class="fa fa-external-link"></i></div>
+
+                <!-- Renames the file -->
+                <div class="mdc-tab" aria-label="Rename file" alt-title="Rename file"><i class="fa fa-pencil-square-o" onclick="window.fsManager.renameSelected()"></i></div>
+
+                <!-- Stop Edit files -->
+                <div class="mdc-tab" id="stopEditingFiles" aria-label="Modify files" alt-title="Stop editing files"><i class="fa fa-check"></i></div>
+            </nav>
+            <!-- add File/Menu -->
+            <div class="mdc-simple-menu mdc-simple-menu--open-from-bottom-left" id="addFsMenu" tabindex="-1">
+                <ul class="mdc-simple-menu__items mdc-list" role="menu" aria-hidden="true">
+                    <li class="mdc-list-item" role="menuitem" onclick="document.getElementById('inputfile').click();" tabindex="0">
+                        <i class="fa fa-upload"></i>&nbsp;Open file
+                    </li>
+                    <li class="mdc-list-item" role="menuitem" tabindex="0">
+                        <i class="fa fa-plus"></i>&nbsp;Create new file
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- editor opened -->
+        <div id="editor">
+
+        </div>
+    </main>
+
+    <!-- Backdrop for page loading -->
+    <div class="mdc-dialog__backdrop" id="loading-bd" style="opacity: 0;">
+        <div role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate mdc-linear-progress--accent" style="top: 49%; width: 80%;left: 10%;">
+            <div class="mdc-linear-progress__buffering-dots"></div>
+            <div class="mdc-linear-progress__buffer"></div>
+            <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
+                <span class="mdc-linear-progress__bar-inner"></span>
+            </div>
+            <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+                <span class="mdc-linear-progress__bar-inner"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drag & drop zone -->
+    <div class="mdc-dialog__backdrop" id="dragdrop-bd" style="opacity: 0;">
+        <h2 id="draganddroptext">
+            Drag &amp; drop file(s) here.
+        </h2>
+    </div>
+
+    <!-- File removing dialog -->
+    <aside id="remove-files-dialog" class="mdc-dialog" role="alertdialog" aria-labelledby="remove-files-dialog-label" aria-describedby="remove-files-dialog-description">
+        <div class="mdc-dialog__surface">
+            <header class="mdc-dialog__header">
+                <h2 id="remove-files-dialog-label" class="mdc-dialog__header__title">
+                    Removing files?
+                </h2>
+            </header>
+            <section id="remove-files-dialog-description" class="mdc-dialog__body mdc-dialog__body--scrollable">
+                Are you sure that you want to remove these files? Warning: THIS ACTION CANNOT BE UNDONE!
+                <ul class="mdc-list" id="remove-files-list">
+                </ul>
+            </section>
+            <footer class="mdc-dialog__footer">
+                <button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--cancel">Cancel</button>
+                <button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">Yes</button>
+            </footer>
+        </div>
+        <div class="mdc-dialog__backdrop"></div>
+    </aside>
+
+    <!-- Snackbar for errors -->
+    <div class="mdc-snackbar" aria-live="assertive" aria-atomic="true" aria-hidden="true">
+        <div class="mdc-snackbar__text"></div>
+        <div class="mdc-snackbar__action-wrapper">
+            <button type="button" class="mdc-button mdc-snackbar__action-button">Dismiss</button>
+        </div>
+    </div>
+
+    <!-- Scipts to install afterwards -->
+    <script src="js/material/mdc.js"></script>
+    <script src="js/node/node_modules.js"></script>
+    <script src="js/utils/nbtFile.js"></script>
+    <script src="js/utils/three.min.js"></script>
+    <script src="js/utils/msv.js"></script>
+    <script src="js/utils/files/renderable.js"></script>
+    <script src="js/utils/files/datFile.js"></script>
+    <script src="js/utils/files/htmlRender.js"></script>
+    <script src="js/utils/files/player.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/files.js"></script>
+    <script src="js/editor.js"></script>
+    <script src="js/fs-manager.js"></script>
+</body>

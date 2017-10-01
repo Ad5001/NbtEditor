@@ -1,0 +1,18 @@
+{
+    "name": "nbt-editor-server",
+    "author": {
+        "name": "Ad5001",
+        "email": "mail@ad5001.eu",
+        "url": "https://en.ad5001.eu"
+    },
+    "version": "0.0.1",
+    "description": "Server nodejs application for NBTEditorMobile",
+    "dependencies": {
+        "express": "^4.15.4"
+    },
+    "license": "NTOSL (View LICENSE.md)",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Ad5001/NBTEditorServer"
+    }
+}
