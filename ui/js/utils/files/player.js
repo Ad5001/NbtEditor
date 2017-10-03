@@ -48,6 +48,8 @@ class Player extends DatFile {
         skinViewer.setContainer(document.getElementById("player-skin"));
         skinViewer.setSkinName("");
         skinViewer.init();
+        // Adding link to download skin
+        document.getElementById("downloadSkinLink").setAttribute("href", canvas.toDataURL());
     }
 
     /**
@@ -56,17 +58,23 @@ class Player extends DatFile {
      * @memberof Player
      */
     render() {
-        document.getElementById("editor").innerHTML = `<div class='nem-playercontainer'>
-            <div id='player-skin'></div>
-            <div id="playerUsername" class="mdc-typography--headline">${this.data.value.NameTag.value}</div>
-        </div>`;
+        document.getElementById("editor").innerHTML = `<center><div class="mdc-card mdc-card__horizontal-block" style="width: 75%;">
+            <div>
+                <div class="mdc-card__media-item mdc-card__media-item--1x" id='player-skin'></div>
+                <a href="" id="downloadSkinLink" download="${this.data.value.NameTag.value}-skin.png"><button class="fa fa-external-link mdc-button">Download</button></a>
+            </div>
+            <section class="mdc-card__primary">
+                <h1 class="mdc-card__title mdc-card__title--large" id="playerCardTitle"><span id="playerUsername">${this.data.value.NameTag.value}</span></h1>
+                <h2 class="mdc-card__subtitle">Subtitle here</h2>
+            </section>
+        </div></center>`;
+        document.querySelector('#playerUsername').addEventListener("click", this.usernameToEditMode, true);
         // Skin
         Player.parseSkin(this.data.value.Skin.value.Data.value);
-        document.querySelector("canvas").style.width = "200px";
-        document.querySelector("canvas").style.height = "290px";
+        // document.querySelector("canvas").style.width = "200px";
+        // document.querySelector("canvas").style.height = "290px";
         // Username edition
         this2 = this; // TWS
-        document.querySelector('#playerUsername').addEventListener("click", this.usernameToEditMode, true);
     }
 
     /**
@@ -92,7 +100,7 @@ class Player extends DatFile {
                         this2.usernameToStaticMode();
                     }
                 });
-                document.querySelector('#playerUsernameContainer').addEventListener("blur", this2.usernameToStaticMode, true);
+                // document.querySelector('#playerUsernameContainer').addEventListener("blur", this2.usernameToStaticMode, true);
             }
         }
     }
@@ -118,8 +126,8 @@ class Player extends DatFile {
         p.classList.add("mdc-textfield-helptext");
         p.id = "username-helptext";
         p.innerHTML = "A valid username is a subset of alphanumeric (and the following : _.) characters";
-        document.querySelector(".nem-playercontainer").appendChild(div);
-        document.querySelector(".nem-playercontainer").appendChild(p);
+        document.querySelector("#playerCardTitle").appendChild(div);
+        document.querySelector("#playerCardTitle").appendChild(p);
         // Adding listeners
         mdc.textfield.MDCTextfield.attachTo(document.querySelector('#playerUsernameContainer'));
         document.querySelector('#playerUsernameTF').addEventListener("keyup", (event) => {
@@ -127,7 +135,7 @@ class Player extends DatFile {
                 this2.usernameToStaticMode(event);
             }
         });
-        document.querySelector('#playerUsernameContainer').addEventListener("blur", this2.usernameToStaticMode, true);
+        // document.querySelector('#playerUsernameContainer').addEventListener("blur", this2.usernameToStaticMode, true);
         // Focus
         document.querySelector('#playerUsernameTF').focus();
     }
@@ -163,6 +171,6 @@ class Player extends DatFile {
      * @memberof Renderable
      */
     static setIcon(elem) {
-        document.getElementById(elem.id).classList.add("fa", "fa-user", "fa-2x");
+        document.getElementById(elem.id).classList.add("fa", "fa-vcard-o", "fa-2x");
     }
 }

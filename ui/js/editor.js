@@ -127,31 +127,36 @@ window.editor = {
     closeTab: (filePath) => {
         var tab = document.querySelector('#edit-file-tab-bar-list>.mdc-tab[data-open-file="' + filePath + '"]');
         if (tab) {
-            // If tab is selected, switch to previous tab. If no previous tab, switch to the next one. If no tab after, that means no tabs are opened.
-            if (window.editor.editorTabBar.activeTab.root_.getAttribute("data-open-file") == filePath) {
-                if (window.editor.editorTabBar.activeTabIndex !== 0) {
-                    window.editor.openTab(new NBTFile(window.editor.editorTabBar.tabs[window.editor.editorTabBar.activeTabIndex - 1].root_.getAttribute("data-open-file")));
-                    window.editor.editorTabBar.tabs[window.editor.editorTabBar.activeTabIndex - 1].root_.classList.add("mdc-tab--active");
-                    localStorage.setItem("selectedTab", window.editor.editorTabBar.tabs[window.editor.editorTabBar.activeTabIndex - 1].root_.getAttribute("data-open-file"));
-                } else if (window.editor.editorTabBar.tabs[window.editor.editorTabBar.activeTabIndex + 1]) {
-                    window.editor.openTab(new NBTFile(window.editor.editorTabBar.tabs[window.editor.editorTabBar.activeTabIndex + 1].root_.getAttribute("data-open-file")));
-                    window.editor.editorTabBar.tabs[window.editor.editorTabBar.activeTabIndex + 1].root_.classList.add("mdc-tab--active");
-                    localStorage.setItem("selectedTab", window.editor.editorTabBar.tabs[window.editor.editorTabBar.activeTabIndex + 1].root_.getAttribute("data-open-file"));
-                } else {
-                    document.getElementById("editor").innerHTML = "<p style='color: var(--mdc-theme-text-disabled-on-primary, #757575);'>No opened files</p>"
-                    localStorage.setItem("selectedTab", 0);
-                }
-            }
-            tab.remove();
-            window.editor.redefineTabs();
             // Remove tab caching
             filePath = filePath.replace(/\$/g, "$1").replace(/\//g, "$2");
             delete window.editor.tabsContents[filePath];
+            delete window.editor.tabsClasses[filePath];
             window.editor.writing++;
             fs.unlink("/tabs/" + filePath, (err) => {
                 if (err) throw err;
                 window.editor.writing--;
             });
+            // If tab is selected, switch to previous tab. If no previous tab, switch to the next one. If no tab after, that means no tabs are opened.
+            try {
+                if (window.editor.editorTabBar.activeTab.root_.getAttribute("data-open-file") == filePath) {
+                    if (window.editor.editorTabBar.activeTabIndex !== 0) {
+                        window.editor.openTab(new NBTFile(window.editor.editorTabBar.tabs[window.editor.editorTabBar.activeTabIndex - 1].root_.getAttribute("data-open-file")));
+                        window.editor.editorTabBar.tabs[window.editor.editorTabBar.activeTabIndex - 1].root_.classList.add("mdc-tab--active");
+                        localStorage.setItem("selectedTab", window.editor.editorTabBar.tabs[window.editor.editorTabBar.activeTabIndex - 1].root_.getAttribute("data-open-file"));
+                    } else if (window.editor.editorTabBar.tabs[window.editor.editorTabBar.activeTabIndex + 1]) {
+                        window.editor.openTab(new NBTFile(window.editor.editorTabBar.tabs[window.editor.editorTabBar.activeTabIndex + 1].root_.getAttribute("data-open-file")));
+                        window.editor.editorTabBar.tabs[window.editor.editorTabBar.activeTabIndex + 1].root_.classList.add("mdc-tab--active");
+                        localStorage.setItem("selectedTab", window.editor.editorTabBar.tabs[window.editor.editorTabBar.activeTabIndex + 1].root_.getAttribute("data-open-file"));
+                    } else {
+                        document.getElementById("editor").innerHTML = "<p style='color: var(--mdc-theme-text-disabled-on-primary, #757575);'>No opened files</p>"
+                        localStorage.setItem("selectedTab", 0);
+                    }
+                }
+                tab.remove();
+                window.editor.redefineTabs();
+            } catch (e) {
+                console.log(e);
+            }
         }
     },
 

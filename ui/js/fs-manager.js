@@ -58,7 +58,8 @@ window.fsManager = {
             files.forEach((nbtfile) => {
                 if (!document.querySelector('#fsList>div[data-path="' + nbtfile.path + '"]')) {
                     document.getElementById("fsList").innerHTML += `
-                    <div data-path="${nbtfile.path}" class="mdc-list-item fs-file" data-type="${nbtfile.extension}" data-mdc-auto-init="MDCRipple">
+                    <div data-path="${nbtfile.path}" class="mdc-list-item fs-file" data-type="${nbtfile.extension}" data-mdc-auto-init="MDCRipple" 
+                    onclick="new NBTFile(this.getAttribute('data-path'), window.editor.openTab)">
                         <i class="mdc-list-item__start-detail" aria-hidden="true" id="${nbtfile.path}-icon">
                         </i>
                         <span class="text">${nbtfile.fileName}</span>
@@ -160,13 +161,13 @@ window.fsManager = {
                         old-value="${elem.parentElement.parentElement.getAttribute("data-path").replace("/files/", "")}" 
                         value="${elem.parentElement.parentElement.getAttribute("data-path").replace("/files/", "").replace(/\&\#47;/, "/")}" aria-controls="username-helptext">
                     </div>`;
-                    mdc.textfield.MDCTextfield.attachTo(text.children[0].children[0]);
+                    mdc.textfield.MDCTextfield.attachTo(text.children[0]);
                     // Listen for 'enter' on the text input to validate filename
                     text.children[0].children[0].addEventListener("keyup", (event) => {
                         if (event.keyCode == 13) {
                             var newName = text.children[0].children[0].value.replace("/", "&#47;");
                             // Rename the file
-                            require("fs").rename("/files/" + text.children[0].children[0].getAttribute("old-value"), newName, function(err) {
+                            require("fs").rename("/files/" + text.children[0].children[0].getAttribute("old-value"), "/files/" + newName, function(err) {
                                 if (err) {
                                     snackbar.show({
                                         message: `Could not rename file: ${err.message}.`,
@@ -174,6 +175,7 @@ window.fsManager = {
                                         timeout: 5000,
                                         actionHandler: function() {}
                                     });
+                                    throw err;
                                 } else {
                                     // Display the new name
                                     text.innerHTML = newName;

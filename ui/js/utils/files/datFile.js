@@ -129,7 +129,7 @@ class DatFile extends Renderable {
                     console.log(4, elem.parentElement.getAttribute("data-path"), "Level");
                     Level.setIcon(elem);
                 } else {
-                    console.log(4, elem.parentElement.getAttribute("data-path"), "Unknown");
+                    console.log(4, elem.parentElement.getAttribute("data-path"), "Unknown", dataObj);
                     elem.classList.add("fa", "fa-info");
                 }
             });

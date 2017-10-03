@@ -53,13 +53,9 @@
 
 /** Player **/
 
-.nem-playercontainer {
-    height: 100%;
-    width: 200px;
-}
-
 #player-skin {
     height: 290px;
+    width: 200px;
     background: radial-gradient(#E3E3E3, white, white);
     cursor: move;
     /* fallback if grab cursor is unsupported */
@@ -81,12 +77,22 @@
 }
 
 #playerUsernameContainer {
-    margin-top: -3rem;
-    position: absolute;
+    height: 33px;
+    margin-top: 15px;
 }
 
-@media screen and (max-height: 400px) {
+@media screen and (max-height: 600px) {
     #player-skin {
         height: calc(100% - 40px);
+    }
+    #editor {
+        height: calc(100% - 56px);
+        overflow-y: scroll;
+    }
+}
+
+@media screen and (max-height: 700px) {
+    .mdc-card__horizontal-block {
+        display: block!important;
     }
 }
